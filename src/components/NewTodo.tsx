@@ -1,14 +1,15 @@
 import React, { useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { createNewTodo } from '../state/actions/asyncActions';
+import { bindActionCreators } from 'redux';
 
-interface NewTodoProps {
-	addTodo: (task: string) => void
-}
-
-const NewTodo: React.FC<NewTodoProps> = (props) => {
+const NewTodo: React.FC = () => {
+	const dispatch = useDispatch();
+	const createTodo = bindActionCreators(createNewTodo, dispatch);
 	const inputRef = useRef<HTMLInputElement>(null);
 	const handleSubmit  = (e: React.FormEvent) => {
 		e.preventDefault();
-		props.addTodo(inputRef.current!.value);
+		createTodo(inputRef.current!.value);
 		inputRef.current!.value = '';
 	};
 
